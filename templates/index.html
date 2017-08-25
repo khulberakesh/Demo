@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block title %}
+    <title>Index</title>
+{% endblock %}
+
+{% block css %}{{block.super}}
+
+{% endblock %}
+
+{% block content %}
+<section id="main-content">
+	<section class="wrapper">
+		<div class="table-agile-info">
+ <div class="panel panel-default">
+    <div class="panel-heading">
+     Instance
+    </div>
+    <div>
+      <table class="table" ui-jq="footable" ui-options="{
+        &quot;paging&quot;: {
+          &quot;enabled&quot;: true
+        },
+        &quot;filtering&quot;: {
+          &quot;enabled&quot;: true
+        },
+        &quot;sorting&quot;: {
+          &quot;enabled&quot;: true
+        }}">
+        <thead>
+          <tr>
+            <th data-breakpoints="xs">Size of fleet</th>
+            <th>Type of instances</th>
+            <th>Max price</th>
+            <th data-breakpoints="xs">Request expiration time</th>
+            <th data-breakpoints="xs">Status</th>
+              <th data-breakpoints="xs">Action</th>
+
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr data-expanded="true">
+            <td>1</td>
+            <td>Dennise</td>
+            <td>Fuhrman</td>
+              <td>Fuhrman</td>
+            <td>Active</td>
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Elodia</td>
+            <td>Weisz</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+        <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+        <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
+        </td>  </tr>
+          <tr>
+            <td>3</td>
+            <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+             <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
+          </tr>
+          <tr>
+            <td>6</td>
+             <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+           <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+           <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
+          </tr>
+          <tr>
+            <td>7</td>
+           <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td>Raeann</td>
+            <td>Haner</td>
+               <td>Fuhrman</td>
+            <td>Active</td>
+
+            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
+            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</section>
+ <!-- footer -->
+		  <div class="footer">
+			<div class="wthree-copyright">
+			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
+			</div>
+		  </div>
+  <!-- / footer -->
+</section>
+
+</section>
+
+	{% endblock %}
