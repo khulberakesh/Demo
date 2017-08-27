@@ -14,7 +14,7 @@ class Article(models.Model):
         try:
             cur = connection.cursor()
             #cur.execute("CALL PROC_LM_FETCH_LOGIN_VALIDATION('" + username + "','" + password + "')")
-            cur.execute("""SELECT UID,Emailid,Concat(Firstname,' ',Lastname) as Name, IsActive
+            cur.execute("""SELECT UID,Emailid, Name, IsActive
 FROM tbl_user_master
 where Emailid='""" + username + """' and password='"""+ password + """' and isactive=1;""")
 
@@ -31,7 +31,7 @@ where Emailid='""" + username + """' and password='"""+ password + """' and isac
     def adduser(Name,Email,Phone,passw):
         try:
             cur = connection.cursor()
-            cur.execute("INSERT INTO `demo`.`tbl_user_master`(Firstname`,`Lastname`,`EmailID`,`Password`,`last_login`,`IsActive`,`CreatedAt`)VALUES('"+ Name +"','"+ Email +"','"+ Phone +"','"+ passw +"',1,1,now());")
+            cur.execute("INSERT INTO `demo`.`tbl_user_master`(`Name`,`EmailID`,`Password`,`phone`,`IsActive`,`CreatedAt`)VALUES('"+ str(Name) +"','"+ str(Email) +"','"+ passw +"','"+ str(Phone) +"',1,now());")
             dictreturn = Article.formatqueryresult(cur)
             cur.close()
             return dictreturn
@@ -43,7 +43,7 @@ where Emailid='""" + username + """' and password='"""+ password + """' and isac
     def configureuser(apikey,screat,uid):
         try:
             cur = connection.cursor()
-            cur.execute("INSERT INTO `demo`.`tbl_demo_key`(`apikey`,`screat`,`IsActive`,`CreatedAt`,`Created_by`)VALUES('"+ apikey +"','"+ screat +"',1,now(),'"+ uid +"');")
+            cur.execute("INSERT INTO `demo`.`tbl_demo_key`(`apikey`,`Secret`,`isactive`,`CreatedAt`,`CreatedAt_by`)VALUES('"+ str(apikey) +"','"+ str(screat) +"',1,now(),'"+ str(uid) +"')");
             dictreturn = Article.formatqueryresult(cur)
             cur.close()
             return dictreturn
@@ -54,7 +54,7 @@ where Emailid='""" + username + """' and password='"""+ password + """' and isac
     def launchinstance(sizeoffleet,tyinstances,maxprice,exptime,uid):
         try:
             cur = connection.cursor()
-            cur.execute("INSERT INTO `demo`.`tbl_active_instance`(sizeof_fleet`,`typeof_instance`,`max_price`,`exp_time`,`Created_by`,`IsActive`,`CreatedAt`)VALUES('"+ sizeoffleet +"','"+ tyinstances +"','"+ maxprice +"','"+ exptime +"','"+ uid +"',1,now());")
+            cur.execute("INSERT INTO `demo`.`tbl_demo_instance`(`sizeof_instance`,`typeof_instance`,`max_price`,`expirationtime`,`CreatedAt`,`CreatedAt_by`)VALUES('"+ sizeoffleet +"','"+ tyinstances +"','"+ maxprice +"','"+ exptime +"',now(),'"+ str(uid) +"');")
             dictreturn = Article.formatqueryresult(cur)
             cur.close()
             return dictreturn
@@ -63,15 +63,40 @@ where Emailid='""" + username + """' and password='"""+ password + """' and isac
 
 
     @staticmethod
-    def launchinstance(sizeoffleet,tyinstances,maxprice,exptime):
+    def fetch_instancedetail():
         try:
             cur = connection.cursor()
-            cur.execute("select * from tbl_instance_master")
+            cur.execute("SELECT id,sizeof_instance,typeof_instance,max_price,expirationtime,status FROM `demo`.`tbl_demo_instance`;")
             dictreturn = Article.formatqueryresult(cur)
             cur.close()
             return dictreturn
         except Exception, err:
             return err
+
+
+    @staticmethod
+    def updatestatus(uid,id):
+        try:
+            cur = connection.cursor()
+            cur.execute("UPDATE `demo`.`tbl_demo_instance` SET `status` = 'active',`CreatedAt_by` = '"+ str(uid) +"' WHERE `ID` = '"+ str(id)+"';")
+            dictreturn = Article.formatqueryresult(cur)
+            cur.close()
+            return 'success'
+        except Exception, err:
+            return err
+
+
+    @staticmethod
+    def deactive(uid,id):
+        try:
+            cur = connection.cursor()
+            cur.execute("UPDATE `demo`.`tbl_demo_instance` SET `status` = 'deactive',`CreatedAt_by` = '"+ str(uid) +"' WHERE `ID` = '"+ str(id)+"';")
+            dictreturn = Article.formatqueryresult(cur)
+            cur.close()
+            return 'success'
+        except Exception, err:
+            return err
+
 
 
 

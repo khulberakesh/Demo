@@ -12,9 +12,15 @@
 
 {% block content %}
 <section id="main-content">
+
 	<section class="wrapper">
+     <div>
+     <a href="/config"> <input type="button" value="Configure User"> </a>
+ </div>
 		<div class="table-agile-info">
+
  <div class="panel panel-default">
+
     <div class="panel-heading">
      Instance
     </div>
@@ -42,102 +48,88 @@
           </tr>
         </thead>
         <tbody>
+        {% for da in data %}
           <tr data-expanded="true">
-            <td>1</td>
-            <td>Dennise</td>
-            <td>Fuhrman</td>
-              <td>Fuhrman</td>
-            <td>Active</td>
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
+            <td>{{ da.sizeof_instance }}</td>
+            <td>{{ da.typeof_instance }}</td>
+            <td>{{ da.max_price }}</td>
+              <td>{{ da.expirationtime }}</td>
+            <td id="status_{{ forloop.counter }}">{{ da.status }}</td>
+            <td><a><button class="btn btn-outline btn-default btn-xs" id ="btn_active_{{ forloop.counter }}_{{ da.id }}" style="border-radius: 70%; background: deepskyblue;">Active</button></a>
+            <a><button class="btn btn-outline btn-default btn-xs" id ="btn_deactive_{{ forloop.counter }}_{{ da.id }}" style="border-radius: 70%; background-color: red;">Deactive</button></a>
             </td>
           </tr>
-          <tr>
-            <td>2</td>
-            <td>Elodia</td>
-            <td>Weisz</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
 
-        <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-        <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
-        </td>  </tr>
-          <tr>
-            <td>3</td>
-            <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a>
-            </td>
-          </tr>
-          <tr>
-            <td>4</td>
-             <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
-          </tr>
-          <tr>
-            <td>5</td>
-            <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
-          </tr>
-          <tr>
-            <td>6</td>
-             <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-           <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-           <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
-          </tr>
-          <tr>
-            <td>7</td>
-           <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
-          </tr>
-          <tr>
-            <td>8</td>
-            <td>Raeann</td>
-            <td>Haner</td>
-               <td>Fuhrman</td>
-            <td>Active</td>
-
-            <td><a href="/active/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background: gray;">Active</button></a>
-            <a href="/deactive/{{ da.id }}"><button class="btn btn-outline btn-default btn-xs" style="border-radius: 70%; background-color: red;">Deactive</button></a></td>
-          </tr>
+        {% endfor %}
         </tbody>
       </table>
     </div>
   </div>
 </div>
 </section>
- <!-- footer -->
-		  <div class="footer">
-			<div class="wthree-copyright">
-			  <p>© 2017 Visitors. All rights reserved | Design by <a href="http://w3layouts.com">W3layouts</a></p>
-			</div>
-		  </div>
-  <!-- / footer -->
+
 </section>
 
 </section>
+    <script>
+    $(document).ready(function () {
+    debugger
+        updatestatus()
+        deactive()
+
+});
+     function deactive() {
+            $('[id^="btn_deactive_"]').click(function () {
+                debugger
+                var curid = this.id;
+                var details = curid.replace('btn_deactive_', '').split('_');
+                var numrow = details[0];
+                var sid = details[1];
+                var abc = 'deactive';
+                var jsonurl =  "/deactive?id=" + sid;
+                $.getJSON(jsonurl, function (data) {
+                    debugger
+                    var json = data.obj1
+                    if (json == 'success') {
+
+
+                        alert('Successfully Updated.');
+                        $('#status_' + numrow).text(abc);
+                    }
+                    else {
+                        alert('Oops somthing wrong please check and try again.');
+                    }
+                });
+
+
+            });
+
+        }
+    function updatestatus() {
+            $('[id^="btn_active_"]').click(function () {
+                debugger
+                var curid = this.id;
+                var details = curid.replace('btn_active_', '').split('_');
+                var numrow = details[0];
+                var sid = details[1];
+                var abc = 'active';
+                var jsonurl =  "/active?id=" + sid;
+                $.getJSON(jsonurl, function (data) {
+                    debugger
+                    var json = data.obj1
+                    if (json == 'success') {
+                        alert('Successfully Updated.');
+                        $('#status_' + numrow).text(abc);
+                    }
+                    else {
+                        alert('Oops somthing wrong please check and try again.');
+                    }
+                });
+
+
+            });
+
+        }
+    </script>
 
 	{% endblock %}

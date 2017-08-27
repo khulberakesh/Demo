@@ -1,3 +1,5 @@
+import json
+
 from django.shortcuts import render, render_to_response
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.template import RequestContext, Context
@@ -6,7 +8,10 @@ from django.contrib.auth.tokens import default_token_generator
 import time
 
 
-
+from django.shortcuts import render
+from django.shortcuts import render_to_response
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.template import RequestContext
 
 
 def html_login(request):
@@ -32,8 +37,6 @@ def html_login(request):
 
 
 
-
-
 def html_logout(request):
     try:
         del request.session['UID']
@@ -47,12 +50,11 @@ def html_logout(request):
 def configureuser(request):
     if "UID" in request.session:
         if request.method == "POST":
-
             ap = request.POST['apikey']
             screat = request.POST['Secret']
             uid = request.session['UID']
             result = Article.configureuser(ap,screat,uid)
-            return render_to_response('configure-user.html',{}, context_instance=RequestContext(request))
+            return HttpResponseRedirect('/launchinstance')
         else:
             return render_to_response('configure-user.html',{}, context_instance=RequestContext(request))
     else:
@@ -60,8 +62,8 @@ def configureuser(request):
 
 def index(request):
     if "UID" in request.session:
-        #result = Article.fetch_instancedetail
-        return render_to_response('index.html',{}, context_instance=RequestContext(request))
+        result = Article.fetch_instancedetail()
+        return render_to_response('index.html',{'success': 'Successfully Registered!','data':result}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/login')
 
@@ -73,25 +75,48 @@ def register(request):
             Phone = request.POST['Phone']
             passw = request.POST['Password']
             result = Article.adduser(Name,Email,Phone,passw)
-            return render_to_response("registration.html", {'success': 'Successfully Inserted!'}, context_instance=RequestContext(request))
+            return render_to_response("registration.html", {'success': 'Successfully Registered!'}, context_instance=RequestContext(request))
         except Exception, err:
             return render_to_response("registration.html", {'error': str(err)}, context_instance=RequestContext(request))
-    return render_to_response("registration.html", {}, context_instance=RequestContext(request))
+    return render_to_response("registration.html", context_instance=RequestContext(request))
 
 
 
 def launchinstance(request):
     if "UID" in request.session:
         if request.method == "POST":
-            sizeoffleet = request.POST['sizeoffleet']
-            tyinstances = request.POST['tyinstances']
-            maxprice = request.POST['maxprice']
-            exptime = request.POST['exptime']
-            uid = request.session['UID']
-            result = Article.launchinstance(sizeoffleet,tyinstances,maxprice,exptime,uid)
-            return render_to_response('launchinstance.html' ,{}, context_instance=RequestContext(request))
-        else:
-            return render_to_response('launchinstance.html' ,{}, context_instance=RequestContext(request))
-
+            try:
+                sizeoffleet = request.POST['sizeoffleet']
+                tyinstances = request.POST['tyinstances']
+                maxprice = request.POST['maxprice']
+                exptime = request.POST['exptime']
+                uid = request.session['UID']
+                result = Article.launchinstance(sizeoffleet,tyinstances,maxprice,exptime,uid)
+                return render_to_response('launchinstance.html' ,{'success': 'Successfully Launch!   Moniter it From Dashboard'}, context_instance=RequestContext(request))
+            except Exception,err:
+                return render_to_response('launchinstance.html' ,{'error': str(err)}, context_instance=RequestContext(request))
+        return render_to_response('launchinstance.html' ,{}, context_instance=RequestContext(request))
     else:
         return HttpResponseRedirect('/login')
+
+
+
+
+def html_active(request):
+    if request.method == "GET" and 'id' in request.GET:
+        uid = request.session['UID']
+        id = request.GET["id"]
+        result = Article.updatestatus(uid,id)
+        data = {'obj1': result}
+        #return HttpResponse(json.dumps(data, default=json_util.default), content_type='application/json;charset=utf8')
+        return HttpResponse(json.dumps(data),content_type='application/json;charset=utf8')
+
+
+def deactive(request):
+    if request.method == "GET" and 'id' in request.GET:
+        uid = request.session['UID']
+        id = request.GET["id"]
+        result = Article.deactive(uid,id)
+        data = {'obj1': result}
+        #return HttpResponse(json.dumps(data, default=json_util.default), content_type='application/json;charset=utf8')
+        return HttpResponse(json.dumps(data),content_type='application/json;charset=utf8')
